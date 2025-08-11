@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Visa Trip — визовая поддержка и туры</title>
+  <meta name="description" content="Оформление виз: США, Шенген, Великобритания, Азия. Консультации, помощь с документами, туры с визовой поддержкой." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#0f2b5b;--ink-soft:#324f86;--brand:#1f6fff;--accent:#ff9b21;
+      --bg:#ffffff;--muted:#f5f7fb;--card:#ffffff;--shadow:0 8px 32px rgba(15,43,91,.10);
+      --radius:18px;--radius-lg:26px;--container:1160px
+    }
+    *{box-sizing:border-box}html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+    a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+    .container{max-width:var(--container);margin:auto;padding:0 16px}
+
+    /* Header */
+    .header{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid #e9eef6;backdrop-filter:saturate(1.2) blur(6px)}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:12px}
+    .brand{display:flex;gap:10px;align-items:center}.brand img{width:40px;height:40px;border-radius:10px}
+    .brand .title{font-weight:800;font-size:20px}
+    nav{display:flex;gap:22px}nav a{color:var(--ink-soft);font-weight:500}nav a:hover{color:var(--ink)}
+    .cta{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#fff;padding:10px 16px;border-radius:999px;font-weight:700;box-shadow:var(--shadow)}
+    .cta.secondary{background:var(--brand)}.menu-btn{display:none;background:#eef3ff;border:0;padding:10px 12px;border-radius:12px}
+
+    /* Hero with photo */
+    .hero{position:relative;min-height:62vh;display:grid;place-items:center;overflow:hidden}
+    .hero::before{
+      content:"";position:absolute;inset:0;
+      background-image:url('https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=1600&auto=format&fit=crop');
+      background-size:cover;background-position:center;filter:brightness(.65);
+      transform:scale(1.04)
+    }
+    .hero-inner{position:relative;width:100%}
+    .hero-card{background:rgba(255,255,255,.92);border:1px solid #e9eef6;border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px}
+    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;align-items:center}
+    .hero h1{font-size:44px;line-height:1.1;margin:0 0 12px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.25)}
+    .hero p{color:#eaf2ff;font-size:18px;margin:0 0 18px;max-width:680px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .quick-form{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px}
+    .field{display:flex;flex-direction:column;gap:6px}.field label{font-size:12px;color:#5b739f}
+    .input{height:44px;padding:10px 12px;border:1px solid #dfe7f5;border-radius:12px;font:inherit}
+    .submit{height:44px;border:0;background:var(--brand);color:#fff;padding:0 18px;border-radius:12px;font-weight:700}
+
+    /* Sections */
+    section{padding:56px 0}.section-title{font-size:28px;margin:0 0 18px}
+
+    /* Cards */
+    .grid{display:grid;gap:16px}.grid.cols-4{grid-template-columns:repeat(4,1fr)}
+    .card{background:var(--card);border:1px solid #e9eef6;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .card .thumb{aspect-ratio:16/10;object-fit:cover}
+    .card .body{padding:14px}
+    .card h3{margin:4px 0 6px;font-size:18px}.card p{margin:0;color:#5b739f;font-size:14px}
+    .flag{position:absolute;left:10px;top:10px;background:#fff;border-radius:10px;padding:6px 8px;box-shadow:0 6px 18px rgba(0,0,0,.06);font-size:13px}
+
+    /* Simple slider */
+    .slider{position:relative;overflow:hidden;border-radius:var(--radius);box-shadow:var(--shadow)}
+    .slides{display:flex;transition:transform .6s ease}
+    .slide{min-width:100%}
+    .slider-nav{position:absolute;inset:auto 10px 10px auto;display:flex;gap:8px}
+    .dot{width:10px;height:10px;border-radius:50%;background:#fff;opacity:.6;border:1px solid rgba(0,0,0,.1);cursor:pointer}
+    .dot.active{opacity:1}
+
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+    .gallery img{aspect-ratio:1/1;object-fit:cover;border-radius:12px;filter:saturate(1.05);transition:transform .2s ease}
+    .gallery img:hover{transform:scale(1.03)}
+
+    /* Testimonials */
+    .testi{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .quote{background:#fff;border:1px solid #e9eef6;border-radius:18px;padding:16px;box-shadow:var(--shadow);display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center}
+    .avatar{width:52px;height:52px;border-radius:50%;object-fit:cover}
+
+    /* Contacts/Footer */
+    .contacts{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .contact-card{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:20px;border:1px solid #e9eef6}
+    .footer{background:#0f2349;color:#cfe0ff}.footer a{color:#e6efff}
+    .footer .columns{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:22px}
+    .credits{border-top:1px solid rgba(255,255,255,.12);margin-top:18px;padding:12px 0;color:#aecdff;font-size:13px}
+
+    /* Responsive */
+    @media (max-width:1000px){
+      .hero-grid{grid-template-columns:1fr}
+      .quick-form{grid-template-columns:1fr 1fr}
+      .grid.cols-4{grid-template-columns:repeat(2,1fr)}
+      .testi{grid-template-columns:1fr 1fr}
+      .gallery{grid-template-columns:repeat(4,1fr)}
+      .contacts{grid-template-columns:1fr}
+      .footer .columns{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:640px){
+      nav{display:none}.menu-btn{display:inline-flex}
+      .hero h1{font-size:32px}.quick-form{grid-template-columns:1fr}
+      .grid.cols-4{grid-template-columns:1fr}
+      .testi{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .footer .columns{grid-template-columns:1fr}
+    }
+    .mobile-nav{display:none;border-top:1px solid #e9eef6}.mobile-nav a{display:block;padding:12px 0;color:var(--ink-soft)}
+    .mobile-nav.open{display:block}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" role="banner">
+    <div class="container header-inner">
+      <a href="#" class="brand"><img src="https://placehold.co/80x80/png?text=VT" alt="Логотип"><span class="title">Visa Trip</span></a>
+      <nav aria-label="Основное меню">
+        <a href="#visas">Визы</a><a href="#gallery">Фото</a><a href="#reviews">Отзывы</a><a href="#contacts">Контакты</a>
+      </nav>
+      <div style="display:flex;gap:10px;align-items:center">
+        <a class="cta" href="#contacts">Подать заявку</a>
+        <button id="menuBtn" class="menu-btn">☰</button>
+      </div>
+    </div>
+    <div id="mobileNav" class="container mobile-nav">
+      <a href="#visas">Визы</a><a href="#gallery">Фото</a><a href="#reviews">Отзывы</a><a href="#contacts">Контакты</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-grid">
+        <div>
+          <h1>Откройте новые страны — мы поможем с визой</h1>
+          <p>Подготовим документы, запишем на подачу, подскажем маршрут. США, Шенген, Великобритания, Азия — быстро и прозрачно.</p>
+          <div class="hero-actions">
+            <a class="cta" href="#contacts">Оставить заявку</a>
+            <a class="cta secondary" href="https://wa.me/0000000000" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <form class="quick-form" id="quickForm">
+            <div class="field"><label for="country">Страна</label><input class="input" id="country" placeholder="США / Шенген" required></div>
+            <div class="field"><label for="city">Город подачи</label><input class="input" id="city" placeholder="Город" required></div>
+            <div class="field"><label for="phone">Телефон</label><input class="input" id="phone" placeholder="+7 ___ ___-__-__" required></div>
+            <button class="submit" type="submit">Отправить</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular visas with photos -->
+  <section id="visas">
+    <div class="container">
+      <h2 class="section-title">Популярные визы</h2>
+      <div class="grid cols-4">
+        <article class="card">
+          <div style="position:relative">
+            <img class="thumb" loading="lazy" src="https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=1200&auto=format&fit=crop" alt="Нью-Йорк">
+            <span class="flag">🇺🇸 США</span>
+          </div>
+          <div class="body"><h3>Туристическая B1/B2</h3><p>DS-160, запись, подготовка к интервью.</p></div>
+        </article>
+        <article class="card">
+          <div style="position:relative">
+            <img class="thumb" loading="lazy" src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop" alt="Париж">
+            <span class="flag">🇪🇺 Шенген</span>
+          </div>
+          <div class="body"><h3>Шенген мульти</h3><p>Маршрут, бронь, подача в удобном консульстве.</p></div>
+        </article>
+        <article class="card">
+          <div style="position:relative">
+            <img class="thumb" loading="lazy" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop" alt="Лондон">
+            <span class="flag">🇬🇧 UK</span>
+          </div>
+          <div class="body"><h3>Великобритания</h3><p>Анкета, финдокументы, биометрия.</p></div>
+        </article>
+        <article class="card">
+          <div style="position:relative">
+            <img class="thumb" loading="lazy" src="https://images.unsplash.com/photo-1554797589-7241bb691973?q=80&w=1200&auto=format&fit=crop" alt="Токио">
+            <span class="flag">🇯🇵 Япония</span>
+          </div>
+          <div class="body"><h3>Азия</h3><p>Япония, Корея, Сингапур — полный пакет.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Simple photo slider -->
+  <section id="tours" style="background:var(--muted)">
+    <div class="container">
+      <h2 class="section-title">Идеи для поездок</h2>
+      <div class="slider" id="slider">
+        <div class="slides" id="slides">
+          <div class="slide"><img src="https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?q=80&w=1600&auto=format&fit=crop" alt="Альпы" loading="lazy"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop" alt="Каньон" loading="lazy"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1600&auto=format&fit=crop" alt="Дубай" loading="lazy"></div>
+        </div>
+        <div class="slider-nav" id="dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery">
+    <div class="container">
+      <h2 class="section-title">Фото из поездок клиентов</h2>
+      <div class="gallery">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=800&auto=format&fit=crop" alt="Лондон">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=800&auto=format&fit=crop" alt="Паспорт и билет">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=800&auto=format&fit=crop" alt="Дубай">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop" alt="Море">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=800&auto=format&fit=crop" alt="Токио ночь">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&auto=format&fit=crop" alt="Каньон США">
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="reviews">
+    <div class="container">
+      <h2 class="section-title">Отзывы клиентов</h2>
+      <div class="testi">
+        <div class="quote">
+          <img class="avatar" loading="lazy" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Алина">
+          <div><b>Алина</b><br><span style="color:#5b739f">Шенген за 7 дней</span><p style="margin:6px 0 0">Оформили без лишних вопросов, помогли с бронями и маршрутом. Очень удобно!</p></div>
+        </div>
+        <div class="quote">
+          <img class="avatar" loading="lazy" src="https://randomuser.me/api/portraits/men/52.jpg" alt="Дмитрий">
+          <div><b>Дмитрий</b><br><span style="color:#5b739f">США B1/B2</span><p style="margin:6px 0 0">Подготовили к интервью, прошёл с первого раза. Рекомендую.</p></div>
+        </div>
+        <div class="quote">
+          <img class="avatar" loading="lazy" src="https://randomuser.me/api/portraits/women/12.jpg" alt="Марина">
+          <div><b>Марина</b><br><span style="color:#5b739f">Япония</span><p style="margin:6px 0 0">Собрали документы и оформили быстро. Подсказали классные места в Токио!</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacts -->
+  <section id="contacts" style="background:linear-gradient(180deg,#fff,#f9fbff)">
+    <div class="container contacts">
+      <div class="contact-card">
+        <h2 style="margin-top:0">Контакты</h2>
+        <p><b>Телефон:</b> <a href="tel:+70000000000">+7 (000) 000-00-00</a></p>
+        <p><b>WhatsApp:</b> <a href="https://wa.me/0000000000" target="_blank" rel="noopener">написать</a></p>
+        <p><b>Telegram:</b> <a href="https://t.me/your_username" target="_blank" rel="noopener">@your_username</a></p>
+        <p><b>Email:</b> <a href="mailto:hello@visatrip.ru">hello@visatrip.ru</a></p>
+        <p><b>Адрес:</b> Москва, ул. Пример, 1</p>
+        <iframe title="Карта офиса" style="width:100%;height:220px;border:0;border-radius:14px" src="https://maps.google.com/maps?q=moscow&t=&z=12&ie=UTF8&iwloc=&output=embed"></iframe>
+      </div>
+      <div class="contact-card">
+        <h2 style="margin-top:0">Оставить заявку</h2>
+        <form id="contactForm" novalidate>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="field"><label for="name">Имя</label><input class="input" id="name" required placeholder="Ваше имя"></div>
+            <div class="field"><label for="phone2">Телефон</label><input class="input" id="phone2" required placeholder="+7 ___ ___-__-__"></div>
+          </div>
+          <div class="field" style="margin-top:12px"><label for="email">Email</label><input class="input" id="email" type="email" placeholder="mail@example.com"></div>
+          <div class="field" style="margin-top:12px"><label for="msg">Комментарий</label><textarea class="input" id="msg" placeholder="Куда и когда хотите поехать" style="min-height:110px"></textarea></div>
+          <button class="submit" style="margin-top:12px" type="submit">Отправить</button>
+          <p id="formNote" style="margin:8px 0 0;color:#5b739f;font-size:13px">Нажимая «Отправить», вы соглашаетесь с обработкой персональных данных.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container" style="padding:24px 0">
+      <div class="columns" style="display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:22px">
+        <div><div class="brand" style="margin-bottom:10px"><img src="https://placehold.co/80x80/png?text=VT" alt="Логотип"><span class="title" style="color:#fff">Visa Trip</span></div><p style="margin:0;color:#cfe0ff">Оформление виз и туры с визовой поддержкой. Работаем по договору, сопровождаем до получения визы.</p></div>
+        <div><b>Услуги</b><ul style="list-style:none;padding:0;margin:10px 0 0;line-height:1.9"><li><a href="#visas">Визы</a></li><li><a href="#gallery">Фото</a></li><li><a href="#reviews">Отзывы</a></li></ul></div>
+        <div><b>Контакты</b><ul style="list-style:none;padding:0;margin:10px 0 0;line-height:1.9"><li><a href="tel:+70000000000">+7 (000) 000-00-00</a></li><li><a href="mailto:hello@visatrip.ru">hello@visatrip.ru</a></li><li><a href="https://t.me/your_username" target="_blank">Telegram</a></li></ul></div>
+      </div>
+      <div class="credits">© <span id="year"></span> Visa Trip. Все права защищены.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Mobile menu
+    const menuBtn=document.getElementById('menuBtn');const mobileNav=document.getElementById('mobileNav');
+    menuBtn&&menuBtn.addEventListener('click',()=>mobileNav.classList.toggle('open'));
+    // Forms (demo)
+    const quickForm=document.getElementById('quickForm');quickForm&&quickForm.addEventListener('submit',e=>{e.preventDefault();alert('Заявка отправлена! Мы свяжемся с вами.');e.target.reset()});
+    const contactForm=document.getElementById('contactForm');contactForm&&contactForm.addEventListener('submit',e=>{e.preventDefault();document.getElementById('formNote').textContent='Спасибо! Мы свяжемся в течение 15 минут.'});
+    // Simple slider
+    const slides=document.getElementById('slides');const dots=document.getElementById('dots');let i=0;
+    const total=slides?slides.children.length:0;
+    if(dots){for(let k=0;k<total;k++){const d=document.createElement('button');d.className='dot'+(k===0?' active':'');d.addEventListener('click',()=>go(k));dots.appendChild(d)}}
+    function go(n){i=n;slides.style.transform='translateX(' + (-100*i) + '%)';[...dots.children].forEach((el,idx)=>el.classList.toggle('active',idx===i))}
+    setInterval(()=>{if(!slides)return;i=(i+1)%total;go(i)},5000);
+  </script>
+</body>
+</html>
